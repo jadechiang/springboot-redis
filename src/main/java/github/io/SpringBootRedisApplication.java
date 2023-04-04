@@ -1,4 +1,4 @@
-package com.ealen;
+package github.io;
 
 
 import org.springframework.boot.SpringApplication;

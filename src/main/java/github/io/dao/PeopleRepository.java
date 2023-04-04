@@ -1,6 +1,6 @@
-package com.ealen.dao;
+package github.io.dao;
 
-import com.ealen.model.People;
+import github.io.model.People;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PeopleRepository extends CrudRepository<People, Integer> {

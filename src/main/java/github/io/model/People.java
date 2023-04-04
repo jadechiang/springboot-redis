@@ -1,4 +1,4 @@
-package com.ealen.model;
+package github.io.model;
 
 import javax.persistence.*;
 import java.util.Objects;

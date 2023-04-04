@@ -1,10 +1,12 @@
-package com.ealen.config;
+package github.io.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -15,24 +17,24 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @EnableCaching
-public class RedisConfig /*extends CachingConfigurerSupport*/ {
+public class RedisConfig extends CachingConfigurerSupport {
 
 //    key的生成策略,可选
-//    @Bean
-//    public KeyGenerator generator() {
-//        return (target, method, params) -> {
-//            StringBuilder builder = new StringBuilder();
-//            builder.append(target.getClass().getName());
-//            builder.append(method.getName());
-//            for (Object object : params) {
-//                builder.append(object.toString());
-//            }
-//            return builder.toString();
-//        };
-//    }
+    @Bean
+    public KeyGenerator generator() {
+        return (target, method, params) -> {
+            StringBuilder builder = new StringBuilder();
+            builder.append(target.getClass().getName());
+            builder.append(method.getName());
+            for (Object object : params) {
+                builder.append(object.toString());
+            }
+            return builder.toString();
+        };
+    }
 
     @Bean
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
@@ -49,9 +51,9 @@ public class RedisConfig /*extends CachingConfigurerSupport*/ {
 
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        //RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         //设置缓存过期时间
-        //cacheManager.setDefaultExpiration(60);//秒
+        cacheManager.setDefaultExpiration(60);//秒
         return new RedisCacheManager(redisTemplate);
     }
 

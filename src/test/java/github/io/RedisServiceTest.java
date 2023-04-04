@@ -1,7 +1,7 @@
-package com.ealen;
+package github.io;
 
-import com.ealen.model.People;
-import com.ealen.service.PeopleService;
+import github.io.model.People;
+import github.io.service.PeopleService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
